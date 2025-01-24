@@ -11,3 +11,4 @@ torch
 pydantic
 openai
 scipy
+tiktoken 
