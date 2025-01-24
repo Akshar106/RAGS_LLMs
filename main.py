@@ -44,7 +44,7 @@ API_BASE_URL = os.getenv("API_BASE_URL")
 API_KEY = os.getenv("OPENAI_API_KEY")
 
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 #openai.api_key = OPENAI_API_KEY
 
 
