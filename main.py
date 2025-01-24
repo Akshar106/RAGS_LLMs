@@ -626,10 +626,10 @@ def main():
     choice = st.sidebar.radio("Select an option:", options)
 
     # Call the relevant function based on user choice
-    if choice == "Language Translation using Transformers":
-        Language_Translation_using_Transformers()
-    # elif choice == "Chat with Document using RAG":
-    #     Chat_with_document_using_RAG()
+    # if choice == "Language Translation using Transformers":
+    #     Language_Translation_using_Transformers()
+    elif choice == "Chat with Document using RAG":
+        Chat_with_document_using_RAG()
     # elif choice == "Chat with Image using NVLM":
     #     Chat_with_Image_using_NVLM()
     # elif choice == "Essay Generation using LLAMA":
