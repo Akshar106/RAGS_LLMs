@@ -125,53 +125,53 @@ os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 
 def Chat_with_document_using_RAG():
     st.title("Chat with Document using RAG")
-    st.write("Upload a PDF document, and ask questions about its content!")
+    st.write("Chat with your uploaded documents!")
 
     uploaded_file = st.file_uploader("Upload a PDF document", type=["pdf"])
     if uploaded_file:
         st.success("Document uploaded successfully!")
         with st.spinner("Processing the document..."):
-            try:
-                # Read and process the PDF
-                pdf_reader = PdfReader(uploaded_file)
-                documents = [{"page_content": page.extract_text()} for page in pdf_reader.pages]
+            with open("uploaded_document.pdf", "wb") as f:
+                f.write(uploaded_file.read())
 
-                # Split document into chunks
-                text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
-                text_chunks = text_splitter.split_documents(documents)
+            # Load the document using PyPDFLoader
+            loader = PyPDFLoader("uploaded_document.pdf")
+            documents = loader.load()
 
-                # Create embeddings and vector store
-                embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY, model="text-embedding-ada-002")
-                vector_store = FAISS.from_documents(text_chunks, embeddings)
-                retriever = vector_store.as_retriever(search_kwargs={"k": 2})
+            # Split the document into chunks
+            text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=50)
+            text_chunks = text_splitter.split_documents(documents)
 
-                # Initialize memory and model
-                memory = ConversationBufferMemory(memory_key="chat_history")
-                model = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo", temperature=0.5)
+            # Create embeddings and vector store
+            embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY, model="text-embedding-ada-002")
+           
+  # Use OpenAI embeddings
+            vector_store = FAISS.from_documents(text_chunks, embeddings)
+            retriever = vector_store.as_retriever(search_kwargs={"k": 2})
 
-                # Create retrieval chain
-                chain = ConversationalRetrievalChain.from_llm(
-                    llm=model,
-                    retriever=retriever,
-                    memory=memory
-                )
-            except Exception as e:
-                st.error(f"Error processing document: {e}")
-                return
+            # Set up memory
+            memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+
+            # Load the conversational model (using ChatOpenAI)
+            model = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo", temperature=0.5)
+
+            # Create the retrieval chain
+            chain = ConversationalRetrievalChain.from_llm(
+                llm=model,
+                retriever=retriever,
+                memory=memory
+            )
 
         st.write("You can now ask questions about your document!")
         user_input = st.text_input("Ask a question about the document:")
         if st.button("Get Answer"):
             if user_input.strip():
                 with st.spinner("Generating answer..."):
-                    try:
-                        result = chain({"question": user_input, "chat_history": []})
-                        st.write("**Answer:**", result["answer"])
-                    except Exception as e:
-                        st.error(f"Error generating answer: {e}")
+                    # Generate the response using the chain
+                    result = chain.invoke({"question": user_input, "chat_history": []})
+                    st.write("**Answer:**", result["answer"])
             else:
                 st.error("Please enter a question.")
-
 
 
 # ###NVLM
