@@ -1,14 +1,34 @@
 import streamlit as st
+from transformers import MarianMTModel, MarianTokenizer
+import tempfile
 from langchain_community.document_loaders.pdf import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import FAISS
 from langchain.memory import ConversationBufferMemory
-from langchain.chat_models import ChatOpenAI
+from langchain_community.llms import Ollama
+from langchain_community.vectorstores import FAISS
 from langchain.chains import ConversationalRetrievalChain
-from langchain.embeddings.openai import OpenAIEmbeddings
+import torch
+from langchain.embeddings.openai import OpenAIEmbeddings  # Corrected import
+from langchain.document_loaders import PyPDFLoader
+from transformers import T5Tokenizer, T5ForConditionalGeneration 
+from langchain.chat_models import ChatOpenAI  # Use ChatOpenAI instead of ChatGoogleGenerativeAI
 from dotenv import load_dotenv
-from transformers import T5Tokenizer, T5ForConditionalGeneration
 import os
+import openai
+import streamlit as st
+import requests
+import base64
+
+# import google.generativeai as genai 
+from diffusers import StableDiffusionPipeline
+from pytorch_pretrained_biggan import (
+    BigGAN,
+    one_hot_from_names,
+    truncated_noise_sample,
+)
+import numpy as np
+from PIL import Image
 load_dotenv()
 # GOOGLE API configuration
 # os.getenv('GOOGLE_API_KEY')
