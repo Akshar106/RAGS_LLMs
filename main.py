@@ -21,12 +21,12 @@ import requests
 import base64
 
 # import google.generativeai as genai 
-from diffusers import StableDiffusionPipeline
-from pytorch_pretrained_biggan import (
-    BigGAN,
-    one_hot_from_names,
-    truncated_noise_sample,
-)
+# from diffusers import StableDiffusionPipeline
+# from pytorch_pretrained_biggan import (
+#     BigGAN,
+#     one_hot_from_names,
+#     truncated_noise_sample,
+# )
 import numpy as np
 from PIL import Image
 load_dotenv()
