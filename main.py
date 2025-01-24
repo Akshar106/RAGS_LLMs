@@ -19,6 +19,7 @@ import openai
 import streamlit as st
 import requests
 import base64
+from PyPDF2 import PdfReader
 
 # import google.generativeai as genai 
 # from diffusers import StableDiffusionPipeline
