@@ -44,7 +44,7 @@ API_BASE_URL = os.getenv("API_BASE_URL")
 API_KEY = os.getenv("OPENAI_API_KEY")
 
 
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 #openai.api_key = OPENAI_API_KEY
 
 
@@ -143,7 +143,7 @@ def Chat_with_document_using_RAG():
             text_chunks = text_splitter.split_documents(documents)
 
             # Create embeddings and vector store
-            embeddings = OpenAIEmbeddings(openai_api_key="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", model="text-embedding-ada-002")
+            embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY, model="text-embedding-ada-002")
            
   # Use OpenAI embeddings
             vector_store = FAISS.from_documents(text_chunks, embeddings)
@@ -153,7 +153,7 @@ def Chat_with_document_using_RAG():
             memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
             # Load the conversational model (using ChatOpenAI)
-            model = ChatOpenAI(openai_api_key="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", model="gpt-3.5-turbo", temperature=0.5)
+            model = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model="gpt-3.5-turbo", temperature=0.5)
 
             # Create the retrieval chain
             chain = ConversationalRetrievalChain.from_llm(
