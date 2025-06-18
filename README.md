@@ -1,4 +1,4 @@
-# Document Chat & Meeting Notes Summarizer
+# Intelligent Document Q&A and Note Summarization App
 
 A powerful Streamlit application that combines two essential AI-powered features:
 1. **RAG-based Document Chat** - Upload PDF documents and chat with them using OpenAI's GPT models
